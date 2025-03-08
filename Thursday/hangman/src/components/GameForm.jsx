@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Button from './Button'
+
 export default function GameForm({ submit, letterGuess, setLetterGuess, counter }) {
   return (
     <div>
@@ -11,11 +13,12 @@ export default function GameForm({ submit, letterGuess, setLetterGuess, counter 
               type='text'
               value={letterGuess}
               onChange={(e)=> setLetterGuess(e.target.value.toUpperCase())}
-              className='border-2 text-5xl rounded-sm w-12 text-center'
+              className='border-2 text-5xl rounded-sm w-12 text-center mb-2'
               maxLength={1}
+              autoFocus
             />
-            <button className='border-2 rounded-sm w-16 text-center'>Submit</button>
-            <p>{counter} lives left</p>
+            <Button className='border-2 rounded-sm w-16 text-center'>Submit</Button>
+            <p>{counter+1} lives left</p>
           </form>
     </div>
   )

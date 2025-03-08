@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 
-import FrontLetter from './components/FrontLetter'
+import Man from './components/Man'
 import Win from './components/Win'
 import Lost from './components/Lost'
+import GameForm from './components/GameForm'
+import GameLetters from './components/GameLetters'
+import GameLettersGuesses from './components/GameLettersGuesses'
 
 import './App.css'
-import GameForm from './components/GameForm'
 
 let guesses = {
   
@@ -13,26 +15,43 @@ let guesses = {
 
 
 
-function App() {
+export default function App() {
   const [word, setWord] = useState('')
   const [game, setGame] = useState([])
+
   const [displayGuesses, setDisplayGuesses] = useState([])
   const [counter, setCounter] = useState(5)
   const [playing, setPlaying] = useState(true)
   const [win, setWin] = useState(false)
   const [letterGuess, setLetterGuess] = useState('')
+  const [trigger, setTrigger] = useState(0)
+
+
+  function resetGame(){
+    setDisplayGuesses([])
+    setCounter(5)
+    setPlaying(true)
+    setWin(false)
+    setLetterGuess('')
+    setTrigger((prev) => prev+1)
+    guesses = {}
+    console.log('clicked reset')
+  }
 
   useEffect(() => {
     async function getWord() {
       const response = await fetch(`https://random-word-api.herokuapp.com/word`)
       const data = await response.json()
       const newWord = (data[0].toUpperCase())
-      setWord(newWord)
-      setGame(new Array(newWord.length).fill('_'))
       console.log(newWord)
+
+      setWord(newWord)
+      let temp = new Array(newWord.length).fill('_')
+      setGame(temp)
+
     }
     getWord()
-  }, [])
+  }, [trigger])
 
   // Check if player has won everytime game updates
   useEffect(() => {
@@ -43,11 +62,7 @@ function App() {
 
 
   
-  function updateLetterGuess(newLetter) {
-    let temp = displayGuesses
-    temp.push(newLetter)
-    setDisplayGuesses(temp)
-  }
+
 
   function checkWin() {
     if(game.join('') == word) {
@@ -58,7 +73,6 @@ function App() {
     }
   }
   
-
   function playerGuess() {
     let letterFound = false
 
@@ -82,6 +96,13 @@ function App() {
         temp[i] = word[i]
         letterFound = true
       }
+    }
+
+
+    function updateLetterGuess(newLetter) {
+      let temp = displayGuesses
+      temp.push(newLetter)
+      setDisplayGuesses(temp)
     }
 
     //letterFound only becomes true if letterGuess was true
@@ -109,44 +130,25 @@ function App() {
 
   return (
     <>
-      <div className='text-4xl flex justify-center'>
+      <div className='text-6xl flex justify-center'>
         HangMan
       </div>
+      <Man counter={counter} win={win}/>
       <div>
-        
-      </div>
-      <div className='flex flex-row justify-evenly mt-24'>
-        {
-          game.map((letter, index) => {
-            return <FrontLetter letter={letter} key={index}/>
-          })
-        }
-      </div>
-
-      <div>
+      <GameLetters game={game}/>
         {
           playing
           ?
           <GameForm submit={submit} letterGuess={letterGuess} setLetterGuess={setLetterGuess} counter={counter}/>
-          : 
+          :
             win
             ?
-            <Win />
+            <Win resetGame={resetGame}/>
             :          
-            <Lost word={word} />
+            <Lost word={word} resetGame={resetGame} />
         }
-        <div>
-          {
-            displayGuesses.map((letter, index) => {
-              return (
-                <p key={index}>{letter}</p>
-              )
-            })
-          }
-        </div>
+        <GameLettersGuesses displayGuesses={displayGuesses}/>
       </div>
     </>
   )
 }
-
-export default App
