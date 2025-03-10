@@ -18,7 +18,7 @@ export default function Man({ counter, win }) {
         {/* pole-arm-top */}
         <div className='border-2 h-2 w-19 bg-black left-6 absolute'/>
         {/* pole-arm-hanger */}
-        <div className='border-2 h-8 w-2 bg-black left-23.5 absolute'/>
+        <div className='border-2 h-8 w-2 border-amber-900 bg-amber-900 left-23.5 absolute'/>
         
         {/* head */}
         {

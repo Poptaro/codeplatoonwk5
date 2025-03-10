@@ -1,0 +1,36 @@
+.box {
+  display: inline-block;
+  border: solid black 2px;
+  margin: 10px;
+  height: 100px;
+  width: 100px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 18px;
+}
+.container {
+  font-size: 0;
+}
+.container2 {
+  height: 200px;
+  border: 2px black solid;
+  overflow: scroll;
+}
+.float-box {
+  float: left;
+}
+
+.text {
+  clear: left;
+}
+.top {
+  z-index: 0;
+  position: absolute;
+  border: solid 4px;
+}
+.lunk{
+  z-index: 1;
+  position: absolute;
+  color: red;
+  border: solid 2px;
+}

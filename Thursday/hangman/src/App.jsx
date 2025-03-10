@@ -9,11 +9,7 @@ import GameLettersGuesses from './components/GameLettersGuesses'
 
 import './App.css'
 
-let guesses = {
-  
-}
-
-
+let guesses = {}
 
 export default function App() {
   const [word, setWord] = useState('')
@@ -25,7 +21,6 @@ export default function App() {
   const [win, setWin] = useState(false)
   const [letterGuess, setLetterGuess] = useState('')
   const [trigger, setTrigger] = useState(0)
-
 
   function resetGame(){
     setDisplayGuesses([])
@@ -60,10 +55,6 @@ export default function App() {
     }
   }, [game])
 
-
-  
-
-
   function checkWin() {
     if(game.join('') == word) {
       console.log('win')
@@ -97,7 +88,6 @@ export default function App() {
         letterFound = true
       }
     }
-
 
     function updateLetterGuess(newLetter) {
       let temp = displayGuesses
